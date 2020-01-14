@@ -15,7 +15,7 @@ import java.io.IOException;
 public class RegistrationServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String name=req.getParameter("name");
         String email=req.getParameter("email");
         String password=req.getParameter("password");
@@ -23,8 +23,7 @@ public class RegistrationServlet extends HttpServlet {
         Registration registration=new Registration();
         registration.addUser(name,email,password);
 
-        RequestDispatcher view = req.getRequestDispatcher("index.html");
-        view.forward(req, resp);
+
 
     }
 }

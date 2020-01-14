@@ -1,3 +1,4 @@
 com/chess/Main.class
-com/chess/Registration.class
 com/servlets/RegistrationServlet.class
+com/chess/Registration.class
+com/servlets/LoginServlet.class
