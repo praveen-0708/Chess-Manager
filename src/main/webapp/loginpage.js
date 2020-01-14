@@ -40,18 +40,19 @@ $(document).ready(function(){
    });
 
    function validate(email,password){
-   console.log(email);
-   console.log(password);
+
+       var regEx = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+         var validEmail = regEx.test(email);
+         if (!validEmail) {
+               alert("Enter a valid email");
+               return false;
+         }
+
         if (password.length < 8) {
-              $('#password').after('<span class="error">Password must be at least 8 characters long</span>');
+              alert("Password must be at least 8 characters");
               return false;
         }
-        var regEx = /^[A-Z0-9][A-Z0-9._%+-]{0,63}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/;
-          var validEmail = regEx.test(email);
-          if (!validEmail) {
-                $('#email').after('<span class="error">Enter a valid email</span>');
-                return false;
-          }
+        console.log();
         return true;
    }
 
