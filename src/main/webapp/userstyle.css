@@ -81,7 +81,7 @@ display:inline-block;
   }
 }
 
-.col .login-form{
+#col .login-form{
 padding:16px;
 display:block;
 margin-left:auto;

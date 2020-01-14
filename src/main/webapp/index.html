@@ -4,27 +4,12 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="userstyle.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="BuildUI.js" ></script>
     <script type="text/javascript" src="loginpage.js" ></script>
 </head>
-<body>
+<body onload="loadLoginPage()">
 
-<div class="col">
-    <div class="login-form"><br>
-        <form>
-        <h1>Login</h1>
-        <p>Please login</p>
-        <hr>
-        <label><b>Email</b></label>
-        <input type="text" placeholder="Email" name="email" id="emailId" required/>
-        <label><b>Password</b></label>
-        <input type="password" placeholder="Password" name="password" id="passwordId" required/>
-            <button type=button class="loginid" id="loginBtn">Login</button>
-        <p class="message">Not registered? <button type=button id="createAccount">Create an account</button></p>
-        </form>
-    </div>
-
-</div>
-
+<div id="dynamicLoader"></div>
 
 </body>
 </html>

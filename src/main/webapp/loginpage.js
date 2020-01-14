@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $("#loginBtn").on("click", function(){
+  $(document).on("click","#loginBtn", function(){
 
    var email = $('#emailId').val();
    var password = $('#passwordId').val();
@@ -11,16 +11,8 @@ $(document).ready(function(){
         });
    });
 
-   $('#createAccount').on("click",function(){
-        $(".col").load("signup.html");
-   });
 
-  $('#cancelBtn').on("click",function(){
-       $(".parent1").load("index.html");
-  });
-
-
-   $("#signUpBtn").on("click", function(){
+   $(document).on("click","#signUpBtn", function(){
       var name = $('#name').val();
       var email = $('#email').val();
       var password = $('#password').val();
@@ -31,9 +23,11 @@ $(document).ready(function(){
                    password : password
            }, function(data,status) {
                    if(status=="success"){
-                   console.log(status);
-                        $(".parent1").load("index.html");
+                        alert("Successfully Registered.")
+                   }else{
+                    alert("Successfully Registered.")
                    }
+
            });
       }
 
@@ -52,7 +46,7 @@ $(document).ready(function(){
               alert("Password must be at least 8 characters");
               return false;
         }
-        console.log();
+
         return true;
    }
 
