@@ -52,7 +52,7 @@ $(document).ready(function(){
               alert("Password must be at least 8 characters");
               return false;
         }
-
+        console.log();
         return true;
    }
 
