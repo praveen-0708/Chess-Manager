@@ -7,7 +7,10 @@ $(document).ready(function(){
                 email : email,
                 password : password
         }, function(responseText) {
-                alert(responseText);
+                if(responseText=="success")
+                    window.location.replace("home.html");
+                else
+                    alert(responseText);
         });
    });
 
@@ -29,7 +32,7 @@ $(document).ready(function(){
                    }
 
            });
-      }
+       }
 
    });
 

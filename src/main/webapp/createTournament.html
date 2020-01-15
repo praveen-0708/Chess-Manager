@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="tournament.css"/>
+</head>
+<body>
+
+<button class="tablink" onclick="openPage('info', this)" id="defaultOpen">1.Basic Info</button>
+<button class="tablink" onclick="openPage('rules', this)" >2.Rules</button>
+
+<div id="info" class="tabcontent">
+    <form style="width: 50%; display: block; margin-left: auto; margin-right: auto;">
+        <label for="name">Tournament Name</label>
+        <input type="text" id="name" name="name" class="label">       
+        <label for="date">Date Range</label>
+        <input type="text" class="label" name="datefilter" value="" id="daterange"/>    
+        <label for="location">Location</label>
+        <input type="text" class="label" id="location" name="location">
+        <button type=button class="ButtonStyle" id="nextBtn">Next</button>
+    </form>
+</div>
+
+<div id="rules" class="tabcontent">
+    <form style="width: 50%; display: block; margin-left: auto; margin-right: auto;">
+        <label for="rounds">Number of Rounds</label>
+        <input type="number" class="label" id="rounds" name="rounds">       
+        <label for="duration">Match Duration</label>
+        <select name="duration" id="duration">
+            <option value="Normal">Normal(>60 min)</option>
+            <option value="Rapid">Rapid(10-60 min)</option>
+            <option value="Blitz">Blitz(0-10 min)</option>
+        </select>   
+        <label for="points">Points for victory, loss, draw and no opponent (BYE)</label><br><br>
+        <div>
+
+            <div style="width:25%; float: left;">
+                <label for="Win">Win</label><br>
+                <input type="number" class="label2" name="Win" id="Win">
+            </div>
+            <div style="width:25%; float: left;">
+                <label for="Loss">Loss</label><br>
+                <input type="number" class="label2" name="Loss" id="Loss">
+            </div>
+
+            <div style="width:25%; float: right;">
+                <label for="BYE">BYE</label><br>
+                <input type="number" class="label2" name="BYE" id="BYE">
+            </div>
+
+            <div style="width:25%; float: right;">
+                <label for="Draw">Draw</label><br>
+                <input type="number" class="label2" name="Draw" id="Draw">
+            </div>
+        </div>        
+        <button type=button class="ButtonStyle" id="createBtn">Create Tournament</button>
+    </form>
+</div>
+
+<script type="text/javascript" src="javascript/CreateTournament.js"></script>
+</body>
+</html> 
