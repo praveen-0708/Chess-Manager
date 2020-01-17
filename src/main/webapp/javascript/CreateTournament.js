@@ -57,6 +57,7 @@ function openPage(pageName) {
     var Loss=$("#Loss").val();
     var BYE=$("#BYE").val();
     var Draw=$("#Draw").val();
+    var createdBy=document.cookie.split(" ")[0]
 
     console.log(rounds);
     console.log(duration);
@@ -74,7 +75,8 @@ function openPage(pageName) {
       Win:Win,
       Loss:Loss,
       BYE:BYE,
-      Draw:Draw
+      Draw:Draw,
+      createdBy:createdBy
 
     },function(data,status){
       alert(status);

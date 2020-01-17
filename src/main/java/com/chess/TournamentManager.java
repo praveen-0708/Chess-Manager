@@ -29,9 +29,9 @@ public class TournamentManager {
     }
 
 
-    public void addTournament(String name,String dateRange,String locationInput,int rounds,String duration,int win,int loss,int bye,int draw){
+    public void addTournament(String name,String dateRange,String locationInput,int rounds,String duration,int win,int loss,int bye,int draw,int createdBy){
         establishConnection();
-        String query="insert into Tournament(name,daterange,location,rounds,duration,win,loss,bye,draw) values(?,?,?,?,?,?,?,?,?)";
+        String query="insert into Tournament(name,daterange,location,rounds,duration,win,loss,bye,draw,CREATED_BY) values(?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement=connection.prepareStatement(query);
             statement.setString(1,name);
@@ -43,7 +43,7 @@ public class TournamentManager {
             statement.setInt(7,loss);
             statement.setInt(8,bye);
             statement.setInt(9,draw);
-
+            statement.setInt(10,createdBy);
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -111,7 +111,7 @@ public class TournamentManager {
             tournament.setLoss(resultSet.getInt(8));
             tournament.setBye(resultSet.getInt(9));
             tournament.setDraw(resultSet.getInt(10));
-
+            tournament.setCreatedBy(resultSet.getInt(11));
 
         } catch (SQLException e) {
             e.printStackTrace();

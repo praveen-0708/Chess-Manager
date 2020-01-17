@@ -27,9 +27,10 @@ public class TournamentServlet extends HttpServlet {
         int Loss=Integer.parseInt(req.getParameter("Loss"));
         int BYE=Integer.parseInt(req.getParameter("BYE"));
         int Draw=Integer.parseInt(req.getParameter("Draw"));
+        int createdBy=Integer.parseInt(req.getParameter("createdBy"));
 
         TournamentManager tournamentManager =new TournamentManager();
-        tournamentManager.addTournament(name,dateRange,locationInput,rounds,duration,Win,Loss,BYE,Draw);
+        tournamentManager.addTournament(name,dateRange,locationInput,rounds,duration,Win,Loss,BYE,Draw,createdBy);
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

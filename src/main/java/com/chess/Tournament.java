@@ -11,13 +11,14 @@ public class Tournament {
     private int loss;
     private int bye;
     private int draw;
+    private int createdBy;
 
 
     public Tournament(){
 
     }
 
-    public Tournament(int tournamentId, String name, String dateRange, String locationInput, int rounds, String duration, int win, int loss, int bye, int draw) {
+    public Tournament(int tournamentId, String name, String dateRange, String locationInput, int rounds, String duration, int win, int loss, int bye, int draw, int createdBy) {
         this.tournamentId = tournamentId;
         this.name = name;
         this.dateRange = dateRange;
@@ -28,6 +29,15 @@ public class Tournament {
         this.loss = loss;
         this.bye = bye;
         this.draw = draw;
+        this.createdBy = createdBy;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
     }
 
     public int getTournamentId() {
