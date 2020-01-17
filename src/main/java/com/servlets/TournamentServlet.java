@@ -35,7 +35,8 @@ public class TournamentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TournamentManager tournamentManager =new TournamentManager();
-        List<Tournament> allTournaments=tournamentManager.getTournamentDetails();
+        String query="select *from Tournament";
+        List<Tournament> allTournaments=tournamentManager.getTournamentDetails(query);
 
         Gson gson = new Gson();
 

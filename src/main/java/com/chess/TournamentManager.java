@@ -54,10 +54,10 @@ public class TournamentManager {
         }
     }
 
-    public List<Tournament> getTournamentDetails(){
+    public List<Tournament> getTournamentDetails(String query){
         establishConnection();
         List<Tournament> allTournaments=new ArrayList<>();
-        String query="select *from Tournament";
+        //String query="select *from Tournament";
 
 
         try {
