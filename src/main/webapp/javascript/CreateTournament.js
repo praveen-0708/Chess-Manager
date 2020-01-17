@@ -78,6 +78,8 @@ function openPage(pageName) {
 
     },function(data,status){
       alert(status);
+      if(status=="success")
+        window.location.replace("home.html")
 
     });
 

@@ -1,5 +1,7 @@
 package com.servlets;
 
+import com.database.DatabaseConnection;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,27 +15,35 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Connection connection=null;
         String email=req.getParameter("email");
         String password=req.getParameter("password");
         resp.setContentType("text/plain");
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chess", "admin", "admin");
-            Statement statement=connection.createStatement();
-            String query="select *from users where Email='"+email+"' and password='"+password+"'";
 
-            ResultSet rs = statement.executeQuery(query);
+        String query="select * from users where Email=? and password=?";
+        DatabaseConnection databaseConnection=new DatabaseConnection();
 
-            if (rs.next()) {
-                resp.getWriter().write("success");
+        try {
+            PreparedStatement preparedStatement=databaseConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1,email);
+            preparedStatement.setString(2,password);
+            ResultSet rs = databaseConnection.selectQuery(preparedStatement);
+            int ID=0;
+            while(rs.next())
+                ID=rs.getInt(1);
+            if (ID!=0) {
+                System.out.println(ID);
+                resp.getWriter().write(String.valueOf(ID));
             }
             else{
                 resp.getWriter().write("failure");
             }
 
-
-        }catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            databaseConnection.closeConnection();
         }
 
     }

@@ -2,6 +2,8 @@ package com.servlets;
 
 
 import com.chess.Tournament;
+import com.chess.TournamentManager;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name="createTournament",urlPatterns = "/createTournament")
 public class TournamentServlet extends HttpServlet {
@@ -25,7 +28,17 @@ public class TournamentServlet extends HttpServlet {
         int BYE=Integer.parseInt(req.getParameter("BYE"));
         int Draw=Integer.parseInt(req.getParameter("Draw"));
 
-        Tournament tournament=new Tournament();
-        tournament.addTournament(name,dateRange,locationInput,rounds,duration,Win,Loss,BYE,Draw);
+        TournamentManager tournamentManager =new TournamentManager();
+        tournamentManager.addTournament(name,dateRange,locationInput,rounds,duration,Win,Loss,BYE,Draw);
+    }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        TournamentManager tournamentManager =new TournamentManager();
+        List<Tournament> allTournaments=tournamentManager.getTournamentDetails();
+
+        Gson gson = new Gson();
+
+        resp.getWriter().write(gson.toJson(allTournaments));
+
     }
 }

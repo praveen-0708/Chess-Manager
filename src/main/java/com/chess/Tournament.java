@@ -1,54 +1,112 @@
 package com.chess;
 
-import java.sql.*;
-
 public class Tournament {
+    private int tournamentId;
+    private String name;
+    private String dateRange;
+    private String locationInput;
+    private int rounds;
+    private String duration;
+    private int win;
+    private int loss;
+    private int bye;
+    private int draw;
 
-    private Connection connection;
+
     public Tournament(){
-        establishConnection();
-    }
-    public void establishConnection() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chess", "admin", "admin");
 
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void closeConnection(){
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Tournament(int tournamentId, String name, String dateRange, String locationInput, int rounds, String duration, int win, int loss, int bye, int draw) {
+        this.tournamentId = tournamentId;
+        this.name = name;
+        this.dateRange = dateRange;
+        this.locationInput = locationInput;
+        this.rounds = rounds;
+        this.duration = duration;
+        this.win = win;
+        this.loss = loss;
+        this.bye = bye;
+        this.draw = draw;
     }
 
+    public int getTournamentId() {
+        return tournamentId;
+    }
 
-    public void addTournament(String name,String dateRange,String locationInput,int rounds,String duration,int win,int loss,int bye,int draw){
+    public void setTournamentId(int tournamentId) {
+        this.tournamentId = tournamentId;
+    }
 
-        String query="insert into Tournament(name,daterange,location,rounds,duration,win,loss,bye,draw) values(?,?,?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement statement=connection.prepareStatement(query);
-            statement.setString(1,name);
-            statement.setString(2,dateRange);
-            statement.setString(3,locationInput);
-            statement.setInt(4,rounds);
-            statement.setString(5,duration);
-            statement.setInt(6,win);
-            statement.setInt(7,loss);
-            statement.setInt(8,bye);
-            statement.setInt(9,draw);
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            closeConnection();
-        }
+    public String getDateRange() {
+        return dateRange;
+    }
+
+    public void setDateRange(String dateRange) {
+        this.dateRange = dateRange;
+    }
+
+    public String getLocationInput() {
+        return locationInput;
+    }
+
+    public void setLocationInput(String locationInput) {
+        this.locationInput = locationInput;
+    }
+
+    public int getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public int getWin() {
+        return win;
+    }
+
+    public void setWin(int win) {
+        this.win = win;
+    }
+
+    public int getLoss() {
+        return loss;
+    }
+
+    public void setLoss(int loss) {
+        this.loss = loss;
+    }
+
+    public int getBye() {
+        return bye;
+    }
+
+    public void setBye(int bye) {
+        this.bye = bye;
+    }
+
+    public int getDraw() {
+        return draw;
+    }
+
+    public void setDraw(int draw) {
+        this.draw = draw;
     }
 }

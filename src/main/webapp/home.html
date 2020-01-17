@@ -7,8 +7,15 @@
 </head>
 <body>
 <div class="abc">
+    <script>
+        if(document.cookie==""){
+            alert("Please login")
+            window.location.replace("index.html")
+        }
+            
+    </script>
 <button class="createbtn" name="createbtn" onclick="location.href='createTournament.html'">CREATE TOURNAMENT </button><br><br>
-<button class="joinbtn" name="joinbtn">JOIN TOURNAMENT </button>
+<button class="joinbtn" name="joinbtn" onclick="location.href='FindTournament.html'">JOIN TOURNAMENT </button>
 </div>
 </body>
 </html>

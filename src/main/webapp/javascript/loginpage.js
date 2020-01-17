@@ -6,11 +6,15 @@ $(document).ready(function(){
         $.get('login', {
                 email : email,
                 password : password
-        }, function(responseText) {
-                if(responseText=="success")
+        }, function(ID) {
+
+                if(ID!="failure"){
+                    document.cookie=ID+" "+email+" "+password
+                    console.log(document.cookie)
                     window.location.replace("home.html");
+                }
                 else
-                    alert(responseText);
+                    alert(ID);
         });
    });
 
