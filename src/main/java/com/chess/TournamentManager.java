@@ -31,8 +31,8 @@ public class TournamentManager {
 
     public void addTournament(String name,String dateRange,String locationInput,int rounds,String duration,int win,int loss,int bye,int draw,int createdBy){
         establishConnection();
-        String query="insert into Tournament(name,daterange,location,rounds,duration,win,loss,bye,draw,CREATED_BY) values(?,?,?,?,?,?,?,?,?,?)";
         try {
+            String query="insert into Tournament(name,daterange,location,rounds,duration,win,loss,bye,draw,CREATED_BY) values(?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement=connection.prepareStatement(query);
             statement.setString(1,name);
             statement.setString(2,dateRange);
@@ -44,8 +44,22 @@ public class TournamentManager {
             statement.setInt(8,bye);
             statement.setInt(9,draw);
             statement.setInt(10,createdBy);
-
             statement.executeUpdate();
+            statement.close();
+
+            query="select * from Tournament where name=? and CREATED_BY=?";
+            statement=connection.prepareStatement(query);
+            statement.setString(1,name);
+            statement.setInt(2,createdBy);
+            ResultSet rs=statement.executeQuery();
+            int ID=0;
+            while(rs.next())
+                ID=rs.getInt(1);
+
+            statement.close();
+            createPointsTable(ID,rounds);
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,8 +72,6 @@ public class TournamentManager {
         establishConnection();
         List<Tournament> allTournaments=new ArrayList<>();
         //String query="select *from Tournament";
-
-
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
@@ -78,6 +90,7 @@ public class TournamentManager {
     }
 
 
+
     public int joinTournament(int playerID,int tournamentID){
         establishConnection();
         String query="insert into PlayersIn values(?,?)";
@@ -86,6 +99,14 @@ public class TournamentManager {
             statement.setInt(1,playerID);
             statement.setInt(2,tournamentID);
             int rows=statement.executeUpdate();
+            statement.close();
+
+            query="insert into Tournament"+tournamentID+"PointsTable(PLAYERID) values(?)";
+            statement=connection.prepareStatement(query);
+            statement.setInt(1,playerID);
+            statement.executeUpdate();
+            statement.close();
+
             return rows;
         } catch (SQLException e) {
 
@@ -120,6 +141,22 @@ public class TournamentManager {
         return tournament;
     }
 
+    public void createPointsTable(int tournamentId,int rounds){
+        establishConnection();
+        StringBuilder partQuery= new StringBuilder();
+        for(int i=1;i<=rounds;i++)
+            partQuery.append(",ROUND").append(i).append(" int DEFAULT 0");
+        String query="create table Tournament"+tournamentId+"PointsTable(PLAYERID int primary key"+partQuery+",TOTAL_POINTS int DEFAULT 0)";
+        try{
+            Statement statement=connection.createStatement();
+            statement.executeUpdate(query);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection();
+        }
 
+    }
 
 }

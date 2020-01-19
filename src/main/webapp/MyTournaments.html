@@ -2,29 +2,30 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="MyTournaments.css"/>
 </head>
-<body>
+<body onload="clickNavBar(event, 'created')">
 
 <h2 style="text-align: center;">MY TOURNAMENTS</h2>
 
 
 <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'Created')" id="defaultOpen">CREATED TOURNAMENTS</button>
-  <button class="tablinks" onclick="openCity(event, 'Joined')">JOINED TOURNAMENTS</button>
+  <button class="tablinks" id="createdBtn" onclick="clickNavBar(event, 'created')" >CREATED TOURNAMENTS</button>
+  <button class="tablinks" id="joinedBtn" onclick="clickNavBar(event, 'joined')" >JOINED TOURNAMENTS</button>
 </div>
 
-<div id="Created" class="tabcontent">
-  <h3>CREATED</h3>
-  
+<div id="created" class="tabcontent">
+  <div id="createdList"></div>
 </div>
 
-<div id="Joined" class="tabcontent">
-  <h3>JOINED</h3>
-
+<div id="joined" class="tabcontent">
+  <div id="joinedList"></div>
 </div>
 
 
 <script type="text/javascript" src="javascript/MyTournaments.js"></script>
+
 </body>
 </html> 

@@ -15,7 +15,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Connection connection=null;
+
         String email=req.getParameter("email");
         String password=req.getParameter("password");
         resp.setContentType("text/plain");
@@ -32,7 +32,6 @@ public class LoginServlet extends HttpServlet {
             while(rs.next())
                 ID=rs.getInt(1);
             if (ID!=0) {
-                System.out.println(ID);
                 resp.getWriter().write(String.valueOf(ID));
             }
             else{
