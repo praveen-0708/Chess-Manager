@@ -11,8 +11,8 @@ function openPage(pageName) {
         getDetails();
     else if(pageName=='players')
         getPlayers();
-    else if(pageName=='matches')
-        getPairing();
+    // else if(pageName=='matches')
+    //     getPairing();
     
   }
 
@@ -61,32 +61,36 @@ function openPage(pageName) {
      return template;
   }
 
-  function getPairing(){
-    var old1=document.getElementById('matchesListNoBye')
-    var old2=document.getElementById('matchesListBye')
+  function getPairing(idh){
+    
+    console.log(idh)
+    
+    var old1=document.getElementById('matchesListNoBye'+String(idh))
+    var old2=document.getElementById('matchesListBye'+String(idh))
     $.get('pairing',{
         ID:localStorage.getItem("tournamentID"),
-        round:1
+        round:idh
       },function(data){
           data=JSON.parse(data)
           console.log(localStorage.getItem("tournamentID"))
           const new1=document.createElement('div')
-          new1.setAttribute("id","matchesListNoBye")
-          $("#matchList").append(new1)
+          new1.setAttribute("id","matchesListNoBye"+String(idh))
+          $("#matchList"+String(idh)).append(new1)
           const new2=document.createElement('div')
-          new2.setAttribute("id","matchesListBye")
-          $("#matchList").append(new2)
-          document.getElementById("matchList").replaceChild(new1,old1)
-          document.getElementById("matchList").replaceChild(new2,old2)
+          new2.setAttribute("id","matchesListBye"+String(idh))
+          $("#matchList"+String(idh)).append(new2)
+          document.getElementById("matchList"+String(idh)).replaceChild(new1,old1)
+          document.getElementById("matchList"+String(idh)).replaceChild(new2,old2)
 
           for(let index=0;index<data.length;index++){
               if(data[index].result=="NO_RESULT"){
-                $("#matchesListNoBye").append($.parseHTML(createNoByeCard(data[index],index+1)))
-                disableButtons(index+1,data[index].player1.playerID,data[index].player2.playerID)
+                $("#matchesListNoBye"+String(idh)).append($.parseHTML(createNoByeCard(data[index],index+1,idh)))
+                //document.getElementById("matchesListNoBye").append($.parseHTML(createNoByeCard(data[index],index+1)))
+                disableButtons(index+1,data[index].player1.playerID,data[index].player2.playerID,idh)
               }                   
               else{
-                $("#matchesListBye").append($.parseHTML(createByeCard(data[index],index+1)))
-                updateScoreWithBYEPostMethod(data[index].player1.playerID)
+                $("#matchesListBye"+String(idh)).append($.parseHTML(createByeCard(data[index],index+1)))
+                updateScoreWithBYEPostMethod(data[index].player1.playerID,idh)
               }
                   
           }
@@ -95,16 +99,16 @@ function openPage(pageName) {
     });
   }
 
-  function createNoByeCard(data,index){
+  function createNoByeCard(data,index,idh){
     const template = `
-      <label style="width: 10%;" id="number${index}" class="sublabel">${index}.</label>
-      <label style="width: 25%;" id="firstplayer${index}" class="sublabel">${data.player1.name}</label>
-      <div style="width: 40%;" id="buttonBox${index}" class="trieBtn">
-          <button style="float: left;" id="firstBtn${index}" class="button">W:L</button>
-          <button style="float: left;" id="middleBtn${index}" class="button">D:D</button>
-          <button style="float: left;" id="lastBtn${index}" class="button">L:W</button>
+      <label style="width: 10%;" id="number${index}-${idh}" class="sublabel">${index}.</label>
+      <label style="width: 25%;" id="firstplayer${index}-${idh}" class="sublabel">${data.player1.name}</label>
+      <div style="width: 40%;" id="buttonBox${index}-${idh}" class="trieBtn">
+          <button style="float: left;" id="firstBtn${index}-${idh}" class="button">W:L</button>
+          <button style="float: left;" id="middleBtn${index}-${idh}" class="button">D:D</button>
+          <button style="float: left;" id="lastBtn${index}-${idh}" class="button">L:W</button>
       </div>
-      <label style="width: 25%;" id="secondplayer${index}" class="sublabel">${data.player2.name}</label>     
+      <label style="width: 25%;" id="secondplayer${index}-${idh}" class="sublabel">${data.player2.name}</label>     
         `;
      return template;
   }
@@ -119,13 +123,13 @@ function openPage(pageName) {
      return template;
   }
 
-  function disableButtons(index,player1ID,player2ID){
-    var header = document.getElementById("buttonBox"+index);
+  function disableButtons(index,player1ID,player2ID,roundNumber){
+    var header = document.getElementById("buttonBox"+index+"-"+roundNumber);
     var btns = header.getElementsByClassName("button");
     for (let i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function() {
         
-        updateScore(i+1,player1ID,player2ID);
+        updateScore(i+1,player1ID,player2ID,roundNumber);
         var current = header.getElementsByClassName("active");
         if(current.length==0){
           this.className += " active";
@@ -139,7 +143,7 @@ function openPage(pageName) {
     }
   }
 
-  function updateScore(buttonIndex,player1ID,player2ID){
+  function updateScore(buttonIndex,player1ID,player2ID,roundNumber){
     var win=localStorage.getItem("win")
     var loss=localStorage.getItem("loss")
     var bye=localStorage.getItem("bye")
@@ -163,7 +167,7 @@ function openPage(pageName) {
     $.post('updateScore',{
       case:"NOBYE",
       tournamentID:localStorage.getItem("tournamentID"),
-      roundNumber:1,
+      roundNumber:roundNumber,
       playerID1:player1ID,
       playerID2:player2ID,
       points1:point1,
@@ -174,7 +178,7 @@ function openPage(pageName) {
 
   }
 
-  function updateScoreWithBYEPostMethod(playerID){
+  function updateScoreWithBYEPostMethod(playerID,roundNumber){
     
     var bye=localStorage.getItem("bye")
     var point=0;
@@ -182,11 +186,11 @@ function openPage(pageName) {
     $.post('updateScore',{
       case:"BYE",
       tournamentID:localStorage.getItem("tournamentID"),
-      roundNumber:1,
+      roundNumber:roundNumber,
       playerID:playerID,
       points:point
     },function(data){
-          alert(data)
+          console.log(data)
     });
     
   }
@@ -213,21 +217,23 @@ function openPage(pageName) {
     current[0].className = current[0].className.replace(" active", "");
     this.className += " active";
     }
-    //getPairing(IDNAME);
+    getPairing(IDNAME);
   }
 
-  localStorage.setItem("id",2)
+  localStorage.setItem("noOfRounds",1)
   function add(){
-    
-      var x=localStorage.getItem("id")
+      //getRounds()
+      console.log(localStorage.getItem("noOfRounds"))
+      var x=localStorage.getItem("noOfRounds")
+      //console.log(x)
       const btn=`<button class="tablink1" onclick="disableMenuButtons(event,'${x}')">Round${x}</button>`
-      const div=`<div id="${x}" class="tabcontent1" style="display:none;">Content${x}</div>`  
+      //const div=`<div id="${x}" class="tabcontent1" style="display:none;">Content${x}</div>`  
     
       $("#buttonMenu").append($.parseHTML(btn))
-      //$("#divMenu").append($.parseHTML(createContent(x)))
-      $("#divMenu").append($.parseHTML(div))
-      
-      localStorage.setItem("id",parseInt(x, 10)+1)
+      $("#divMenu").append($.parseHTML(createContent(x)))
+      //$("#divMenu").append($.parseHTML(div))    
+      //setRounds(parseInt(x, 10)+1)
+      localStorage.setItem("noOfRounds",parseInt(x, 10)+1)
   }
 
   function createContent(x){
@@ -239,11 +245,30 @@ function openPage(pageName) {
             <label style="width: 40%;" class="mainlabel">Result</label>
             <label style="width: 25%;" class="mainlabel">Player-2</label>
         </div>
-        <div id="matchList">
-            <div id="matchesListNoBye"></div>
-            <div id="matchesListBye"></div>
+        <div id="matchList${x}">
+            <div id="matchesListNoBye${x}"></div>
+            <div id="matchesListBye${x}"></div>
         </div>
     </div>
     `
     return template;
   }
+
+function getRounds(){
+  console.log("get")
+  $.get('getRounds',{ 
+    tournamentID:localStorage.getItem("tournamentID")   
+  },function(data){
+        localStorage.setItem("noOfRounds",parseInt(data, 10));              
+  }); 
+}
+
+function setRounds(rounds){
+  console.log("set")
+  $.post('getRounds',{ 
+    tournamentID:localStorage.getItem("tournamentID"),  
+    roundsCompleted:rounds
+  },function(data){
+                    
+  }); 
+}

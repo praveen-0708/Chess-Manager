@@ -1,5 +1,7 @@
 package com.chess;
 
+import com.database.DatabaseConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +158,26 @@ public class TournamentManager {
         finally {
             closeConnection();
         }
+    }
 
+    public int getRoundsCompleted(int tournamentId){
+        DatabaseConnection databaseConnection=new DatabaseConnection();
+        String query="select ROUNDS_COMPLETED from Tournament where TournamentId="+tournamentId;
+        int rounds=0;
+        try{
+            ResultSet rs=databaseConnection.selectQuery2(query);
+            while(rs.next())
+                rounds=rs.getInt(1);
+            return rounds;
+        }
+
+        catch (SQLException e){
+            e.printStackTrace();
+            return rounds;
+        }
+        finally {
+            databaseConnection.closeConnection();
+        }
     }
 
 }
