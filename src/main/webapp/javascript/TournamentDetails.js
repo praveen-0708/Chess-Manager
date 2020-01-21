@@ -15,6 +15,8 @@ function openPage(pageName) {
         getPairing();
     
   }
+
+  
   
   function getDetails(){
       $.get('SelectedTournament',{
@@ -80,10 +82,13 @@ function openPage(pageName) {
           for(let index=0;index<data.length;index++){
               if(data[index].result=="NO_RESULT"){
                 $("#matchesListNoBye").append($.parseHTML(createNoByeCard(data[index],index+1)))
-                disableButtons(index+1)
+                disableButtons(index+1,data[index].player1.playerID,data[index].player2.playerID)
               }                   
-              else
-                  $("#matchesListBye").append($.parseHTML(createByeCard(data[index],index+1))) 
+              else{
+                $("#matchesListBye").append($.parseHTML(createByeCard(data[index],index+1)))
+                updateScoreWithBYEPostMethod(data[index].player1.playerID)
+              }
+                  
           }
           
           
@@ -114,20 +119,131 @@ function openPage(pageName) {
      return template;
   }
 
-  function disableButtons(index){
-    console.log("buttonBox"+index)
+  function disableButtons(index,player1ID,player2ID){
     var header = document.getElementById("buttonBox"+index);
     var btns = header.getElementsByClassName("button");
-    for (var i = 0; i < btns.length; i++) {
+    for (let i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function() {
-      var current = header.getElementsByClassName("active");
-      if(current.length==0){
+        
+        updateScore(i+1,player1ID,player2ID);
+        var current = header.getElementsByClassName("active");
+        if(current.length==0){
+          this.className += " active";
+        }
+        else{
+        current[0].className = current[0].className.replace(" active", "");
         this.className += " active";
-      }
-      else{
-      current[0].className = current[0].className.replace(" active", "");
-      this.className += " active";
-      }
+        }
+        
       });
     }
+  }
+
+  function updateScore(buttonIndex,player1ID,player2ID){
+    var win=localStorage.getItem("win")
+    var loss=localStorage.getItem("loss")
+    var bye=localStorage.getItem("bye")
+    var draw=localStorage.getItem("draw")
+    
+    var point1=0;
+    var point2=0;
+    if(buttonIndex===1){
+      point1+=parseInt(win, 10)
+      point2+=parseInt(loss, 10)
+    }
+    else if(buttonIndex===2){
+      point1+=parseInt(bye, 10)
+      point2+=parseInt(bye, 10)
+    }
+    else{
+      point1+=parseInt(loss, 10)
+      point2+=parseInt(win, 10)
+    }
+    
+    $.post('updateScore',{
+      case:"NOBYE",
+      tournamentID:localStorage.getItem("tournamentID"),
+      roundNumber:1,
+      playerID1:player1ID,
+      playerID2:player2ID,
+      points1:point1,
+      points2:point2
+    },function(data){
+          alert(data)
+    });
+
+  }
+
+  function updateScoreWithBYEPostMethod(playerID){
+    
+    var bye=localStorage.getItem("bye")
+    var point=0;
+    point+=parseInt(bye, 10)
+    $.post('updateScore',{
+      case:"BYE",
+      tournamentID:localStorage.getItem("tournamentID"),
+      roundNumber:1,
+      playerID:playerID,
+      points:point
+    },function(data){
+          alert(data)
+    });
+    
+  }
+
+  function disableMenuButtons(evt, IDNAME) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent1");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink1");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(IDNAME).style.display = "block";
+    evt.currentTarget.className += " active";
+    var header = document.getElementById("buttonMenu");
+    var current = header.getElementsByClassName("active");
+    if(current.length==1){
+      
+      this.className += " active";
+    }
+    else{
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+    }
+    //getPairing(IDNAME);
+  }
+
+  localStorage.setItem("id",2)
+  function add(){
+    
+      var x=localStorage.getItem("id")
+      const btn=`<button class="tablink1" onclick="disableMenuButtons(event,'${x}')">Round${x}</button>`
+      const div=`<div id="${x}" class="tabcontent1" style="display:none;">Content${x}</div>`  
+    
+      $("#buttonMenu").append($.parseHTML(btn))
+      //$("#divMenu").append($.parseHTML(createContent(x)))
+      $("#divMenu").append($.parseHTML(div))
+      
+      localStorage.setItem("id",parseInt(x, 10)+1)
+  }
+
+  function createContent(x){
+    const template=`
+    <div id="${x}" class="tabcontent1" style="display:none;">
+        <div>
+            <label style="width: 10%;" class="mainlabel">Match</label>
+            <label style="width: 25%;" class="mainlabel">Player-1</label>
+            <label style="width: 40%;" class="mainlabel">Result</label>
+            <label style="width: 25%;" class="mainlabel">Player-2</label>
+        </div>
+        <div id="matchList">
+            <div id="matchesListNoBye"></div>
+            <div id="matchesListBye"></div>
+        </div>
+    </div>
+    `
+    return template;
   }

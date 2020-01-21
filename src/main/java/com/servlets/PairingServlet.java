@@ -2,6 +2,7 @@ package com.servlets;
 
 import com.chess.Match;
 import com.chess.PairingManager;
+import com.chess.PlayerManager;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -26,9 +27,4 @@ public class PairingServlet extends HttpServlet {
         resp.getWriter().write(gson.toJson(matchList));
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PairingManager pairingManager=new PairingManager();
-        pairingManager.updateScore(1,11,2,1,0);
-    }
 }

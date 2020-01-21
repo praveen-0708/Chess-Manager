@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="TournamentDetails.css"/>
     <script type="text/javascript" src="javascript/TournamentDetails.js"></script>
 </head>
-<body onload="openPage('details')">
+<body onload="openPage('matches')">
 
 <button class="tablink" onclick="openPage('details')" id="defaultOpen">1.Details</button>
 <button class="tablink" onclick="openPage('players')" >2.Players</button>
@@ -29,23 +29,34 @@
     <div id="playersList"></div>
 </div>
 <div id="matches" class="tabcontent">
-    <div>
-        <div>
-            <label style="width: 10%;" class="mainlabel">Match</label>
-            <label style="width: 25%;" class="mainlabel">Player-1</label>
-            <label style="width: 40%;" class="mainlabel">Result</label>
-            <label style="width: 25%;" class="mainlabel">Player-2</label>
-        </div>
-        <div id="matchList">
-            <div id="matchesListNoBye"></div>
-            <div id="matchesListBye"></div>
-        </div>
-
+    <div id="buttonMenu">
+        <button class="tablink1" onclick="disableMenuButtons(event,'1')">Round1</button>
     </div>
-    
+    <div id="divMenu">
+        <div id="1" class="tabcontent1" style="display:none;">
+            <div>
+                <label style="width: 10%;" class="mainlabel">Match</label>
+                <label style="width: 25%;" class="mainlabel">Player-1</label>
+                <label style="width: 40%;" class="mainlabel">Result</label>
+                <label style="width: 25%;" class="mainlabel">Player-2</label>
+            </div>
+            <div id="matchList">
+                <div id="matchesListNoBye"></div>
+                <div id="matchesListBye"></div>
+            </div>
+        </div>
+    </div>   
+    <button onclick="add()">NEXT</button>
 </div>
 <div id="rank" class="tabcontent">
-    4
+    <!-- <div id="buttonMenu">
+        <button class="tablink1" onclick="test1(event,'1')">Round1</button>
+    </div>
+    <div id="divMenu">
+        <div id="1" class="tabcontent1">Content1</div>
+    </div>
+    <button onclick="add()">NEXT</button> -->
+
 </div>
 
 

@@ -32,7 +32,7 @@ $(document).ready(function(){
                    if(status=="success"){
                         alert("Successfully Registered.")
                    }else{
-                    alert("Successfully Registered.")
+                    alert("Failed.")
                    }
 
            });

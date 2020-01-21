@@ -37,9 +37,9 @@ public class PairingManager {
         }
         return matches;
     }
-    public void updateScore(int playerId,int tournamentId,int points,int roundNumber,int totalPoints){
-        totalPoints=totalPoints+points;
-        String query="update Tournament"+tournamentId+"PointsTable set ROUND"+roundNumber+"="+points+",TOTAL_POINTS="+totalPoints+
+    public void updateScore(int playerId,int tournamentId,int points,int roundNumber){
+
+        String query="update Tournament"+tournamentId+"PointsTable set ROUND"+roundNumber+"="+points+
                 " where PLAYERID="+playerId;
         DatabaseConnection databaseConnection=new DatabaseConnection();
         databaseConnection.updateQuery(query);

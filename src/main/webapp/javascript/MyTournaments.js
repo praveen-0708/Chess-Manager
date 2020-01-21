@@ -73,7 +73,7 @@ function createCard1(data,index){
 
 function createCard2(data,index){
   const template = `
-  <div class="card" id="card${index}" onclick="arrowBtn(${data.tournamentId})")>
+  <div class="card" id="card${index}" onclick="arrowBtn(${data.tournamentId},${data.rounds},${data.win},${data.loss},${data.bye},${data.draw})")>
     <div style="float:left; width:75%;">
         <label class="label" id="name${index}">Tournament Name:${data.name}</label>
         <label class="label" id="date${index}">Date:${data.dateRange}</label>       
@@ -89,7 +89,11 @@ function createCard2(data,index){
    return template;
 }
 
-function arrowBtn(tournamentID){
+function arrowBtn(tournamentID,totalRounds,win,loss,bye,draw){
   localStorage.setItem("tournamentID",tournamentID)
+  localStorage.setItem("win",win)
+  localStorage.setItem("loss",loss)
+  localStorage.setItem("bye",bye)
+  localStorage.setItem("draw",draw)
   window.location.replace("TournamentDetails.html")
 }
