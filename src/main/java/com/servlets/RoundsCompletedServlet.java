@@ -20,12 +20,12 @@ public class RoundsCompletedServlet extends HttpServlet {
         resp.getWriter().write(String.valueOf(roundsCompleted));
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int tournamentId=Integer.parseInt(req.getParameter("tournamentID"));
-        int roundsCompleted=Integer.parseInt(req.getParameter("roundsCompleted"));
-        String query="update Tournament set ROUNDS_COMPLETED="+roundsCompleted+" where TournamentId="+tournamentId;
-        DatabaseConnection databaseConnection=new DatabaseConnection();
-        databaseConnection.updateQuery(query);
-    }
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        int tournamentId=Integer.parseInt(req.getParameter("tournamentID"));
+//        int roundsCompleted=Integer.parseInt(req.getParameter("roundsCompleted"));
+//        String query="update Tournament set ROUNDS_COMPLETED="+roundsCompleted+" where TournamentId="+tournamentId;
+//        DatabaseConnection databaseConnection=new DatabaseConnection();
+//        databaseConnection.updateQuery(query);
+//    }
 }

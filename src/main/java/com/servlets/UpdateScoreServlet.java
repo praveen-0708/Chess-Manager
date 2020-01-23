@@ -30,13 +30,14 @@ public class UpdateScoreServlet extends HttpServlet {
 
         int playerId2=Integer.parseInt(req.getParameter("playerID2"));
         int points2=Integer.parseInt(req.getParameter("points2"));
+        String result=req.getParameter("result");
 
         //PlayerManager playerManager=new PlayerManager();
         //int totalPoints1=playerManager.getTotalPointsOfAPlayer(playerId1,tournamentId);
         //int totalPoints2=playerManager.getTotalPointsOfAPlayer(playerId2,tournamentId);
         PairingManager pairingManager=new PairingManager();
-        pairingManager.updateScore(playerId1,tournamentId,points1,roundNumber);
-        pairingManager.updateScore(playerId2,tournamentId,points2,roundNumber);
+        pairingManager.updateScore(playerId1,playerId2,tournamentId,roundNumber,points1,points2,result);
+
 
     }
     public void addScoreWithBye(HttpServletRequest req){
@@ -44,8 +45,10 @@ public class UpdateScoreServlet extends HttpServlet {
         int tournamentId=Integer.parseInt(req.getParameter("tournamentID"));
         int points=Integer.parseInt(req.getParameter("points"));
         int roundNumber=Integer.parseInt(req.getParameter("roundNumber"));
+        String result=req.getParameter("result");
+
         PairingManager pairingManager=new PairingManager();
-        pairingManager.updateScore(playerId,tournamentId,points,roundNumber);
+        pairingManager.updateScore(playerId,0,tournamentId,roundNumber,points,0,result);
 
     }
 }

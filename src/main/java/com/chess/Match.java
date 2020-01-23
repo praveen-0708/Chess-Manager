@@ -56,4 +56,14 @@ public class Match {
         DRAW,
         BYE
     }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "roundNumber=" + roundNumber +
+                ", player1=" + player1 +
+                ", player2=" + player2 +
+                ", result=" + result +
+                '}';
+    }
 }

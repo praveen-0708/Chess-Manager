@@ -6,11 +6,11 @@
     <link rel="stylesheet" type="text/css" href="TournamentDetails.css"/>
     <script type="text/javascript" src="javascript/TournamentDetails.js"></script>
 </head>
-<body onload="openPage('matches')">
+<body onload="openPage('matches','firsttime')">
 
 <button class="tablink" onclick="openPage('details')" id="defaultOpen">1.Details</button>
 <button class="tablink" onclick="openPage('players')" >2.Players</button>
-<button class="tablink" onclick="openPage('matches')" >3.Matches</button>
+<button id="matchBtn" class="tablink" onclick="openPage('matches')" >3.Matches</button>
 <button class="tablink" onclick="openPage('rank')" >4.Rank</button>
 
 <div id="details" class="tabcontent">
@@ -28,7 +28,7 @@
 <div id="players" class="tabcontent">
     <div id="playersList"></div>
 </div>
-<div id="matches" class="tabcontent">
+<div id="matches" class="tabcontent" >
     <div id="buttonMenu">
         <!-- <button class="tablink1" onclick="disableMenuButtons(event,'1')">Round1</button> -->
     </div>

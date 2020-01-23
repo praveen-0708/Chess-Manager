@@ -48,4 +48,14 @@ public class Player {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerID=" + playerID +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

@@ -2,6 +2,8 @@ package com.chess;
 
 import com.database.DatabaseConnection;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +11,22 @@ public class PairingManager {
 
     public List<Match> pairing(int tournamentId,int roundNumber){
 
-        String query="select *from users u,PlayersIn p where p.TournamentID="+tournamentId+" and u.ID=p.ID";
+        String query="select *from users u,PlayersIn p where p.TournamentID="+tournamentId+" and u.ID=p.ID order by TOTAL_POINTS desc";
 
         PlayerManager playerManager=new PlayerManager();
         List<Player> players=playerManager.getPlayerDetails(query);
         List<Match> matches=createMatches(players,roundNumber);
+        //System.out.println(matches);
+        addPairingToDB(matches,tournamentId);
+
+        TournamentManager tournamentManager=new TournamentManager();
+        int roundsCompleted=tournamentManager.getRoundsCompleted(tournamentId);
+
+        query="update Tournament set ROUNDS_COMPLETED="+(roundsCompleted+1)+" where TournamentId="+tournamentId;
+        DatabaseConnection databaseConnection=new DatabaseConnection();
+        databaseConnection.updateQuery(query);
+        databaseConnection.closeConnection();
+
         return matches;
 
     }
@@ -37,14 +50,101 @@ public class PairingManager {
         }
         return matches;
     }
-    public void updateScore(int playerId,int tournamentId,int points,int roundNumber){
+    public void updateScore(int player1ID,int player2ID,int tournamentId,int roundNumber,int player1Points,int player2Points,String result){
 
-        String query="update Tournament"+tournamentId+"PointsTable set ROUND"+roundNumber+"="+points+
-                " where PLAYERID="+playerId;
+//        String query="update Tournament"+tournamentId+"PointsTable set ROUND"+roundNumber+"="+points+
+//                " where PLAYERID="+playerId;
+
+        String query="update MATCHES set RESULT='"+result+"',PLAYER1_POINTS="+player1Points+",PLAYER2_POINTS="+player2Points+" where PLAYER1_ID="+player1ID+" and PLAYER2_ID="+player2ID
+                +" and ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId;
+
+
         DatabaseConnection databaseConnection=new DatabaseConnection();
         databaseConnection.updateQuery(query);
+
+//        int totalPointsOfPlayer1=0;
+//        int totalPointsOfPlayer2=0;
+//        PlayerManager playerManager=new PlayerManager();
+//        if(result.equals("PLAYER_1_WON") || result.equals("BYE")){
+//            totalPointsOfPlayer1=playerManager.getTotalPointsOfAPlayer(player1ID,tournamentId);
+//            query="update PlayersIn set TOTAL_POINTS="+(player1Points+totalPointsOfPlayer1)+" where ID="+player1ID+" and TournamentID="+tournamentId;
+//            databaseConnection.updateQuery(query);
+//        }
+//        else if(result.equals("PLAYER_2_WON")){
+//            totalPointsOfPlayer2=playerManager.getTotalPointsOfAPlayer(player2ID,tournamentId);
+//            query="update PlayersIn set TOTAL_POINTS="+(player2Points+totalPointsOfPlayer2)+" where ID="+player2ID+" and TournamentID="+tournamentId;
+//            databaseConnection.updateQuery(query);
+//        }
+//        else if(result.equals("DRAW")){
+//            totalPointsOfPlayer1=playerManager.getTotalPointsOfAPlayer(player1ID,tournamentId);
+//            totalPointsOfPlayer2=playerManager.getTotalPointsOfAPlayer(player2ID,tournamentId);
+//            query="update PlayersIn set TOTAL_POINTS="+(player1Points+totalPointsOfPlayer1)+" where ID="+player1ID+" and TournamentID="+tournamentId;
+//            databaseConnection.updateQuery(query);
+//            query="update PlayersIn set TOTAL_POINTS="+(player2Points+totalPointsOfPlayer2)+" where ID="+player2ID+" and TournamentID="+tournamentId;
+//            databaseConnection.updateQuery(query);
+//        }
+//        System.out.println(query);
         databaseConnection.closeConnection();
     }
 
+    public void addPairingToDB(List<Match> matches,int tournamentId){
+        int player1ID,player2ID=0;
+        String query;
+
+        for(Match match:matches){
+            player2ID=0;
+            int roundNumber=match.getRoundNumber();
+            player1ID=match.getPlayer1().getPlayerID();
+            if(!match.getResult().equals(Match.MatchResult.BYE))
+                player2ID=match.getPlayer2().getPlayerID();
+
+            query="insert into MATCHES(PLAYER1_ID,PLAYER2_ID,ROUND_NUMBER,TOURNAMENT_ID) values("+player1ID+","+player2ID+","+roundNumber+","+tournamentId+")";
+            DatabaseConnection databaseConnection=new DatabaseConnection();
+            databaseConnection.updateQuery(query);
+            databaseConnection.closeConnection();
+        }
+    }
+
+    public List<Match> paired(int tournamentId,int roundNumber){
+        String query="select *from users u,MATCHES m where m.ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId+" and u.ID=m.PLAYER1_ID";
+        String query2="select *from users u,MATCHES m where m.ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId+" and u.ID=m.PLAYER2_ID";
+
+        DatabaseConnection databaseConnection=new DatabaseConnection();
+
+        List<Match> matches=new ArrayList<>();
+        try{
+            ResultSet rs=databaseConnection.selectQuery2(query);
+            ResultSet rs2=databaseConnection.selectQuery2(query2);
+            while(rs.next()){
+                Match match=new Match();
+                match.setRoundNumber(rs.getInt(7));
+                match.setResult(Match.MatchResult.valueOf(rs.getString(11)));
+                Player player1=new Player();
+                player1.setName(rs.getString(2));
+                player1.setEmail(rs.getString(3));
+                player1.setPlayerID(rs.getInt(1));
+                match.setPlayer1(player1);
+                matches.add(match);
+            }
+            int i=0;
+            while (rs2.next()){
+                Player player2=new Player();
+                player2.setPlayerID(rs2.getInt(1));
+                player2.setName(rs2.getString(2));
+                player2.setEmail(rs2.getString(3));
+                Match match=new Match();
+                match=matches.get(i);
+                match.setPlayer2(player2);
+                matches.set(i,match);
+                i++;
+            }
+            return matches;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return matches;
+        }finally {
+            databaseConnection.closeConnection();
+        }
+    }
 
 }

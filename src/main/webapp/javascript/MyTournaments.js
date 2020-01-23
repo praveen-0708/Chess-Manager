@@ -95,5 +95,6 @@ function arrowBtn(tournamentID,totalRounds,win,loss,bye,draw){
   localStorage.setItem("loss",loss)
   localStorage.setItem("bye",bye)
   localStorage.setItem("draw",draw)
+  localStorage.setItem("totalRounds",totalRounds)
   window.location.replace("TournamentDetails.html")
 }

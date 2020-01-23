@@ -45,7 +45,7 @@ public class PlayerManager {
 
     public int getTotalPointsOfAPlayer(int playerId,int tournamentId){
         DatabaseConnection databaseConnection=new DatabaseConnection();
-        String query="select TOTAL_POINTS from Tournament"+tournamentId+"PointsTable where PLAYERID="+playerId;
+        String query="select TOTAL_POINTS from PlayersIn where ID="+playerId+" and TournamentID="+tournamentId;
         ResultSet rs=databaseConnection.selectQuery2(query);
         int totalPoints=0;
         try {
