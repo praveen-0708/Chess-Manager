@@ -16,6 +16,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+        //System.out.println(req.getParameter("eid"));
         String name=req.getParameter("name");
         String email=req.getParameter("email");
         String password=req.getParameter("password");

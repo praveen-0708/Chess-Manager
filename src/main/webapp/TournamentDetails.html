@@ -4,9 +4,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="TournamentDetails.css"/>
-    <script type="text/javascript" src="javascript/TournamentDetails.js"></script>
+    <script type="text/javascript" src="javascript/test.js"></script>
 </head>
-<body onload="openPage('matches','firsttime')">
+<body onload="openPage('matches')">
 
 <button class="tablink" onclick="openPage('details')" id="defaultOpen">1.Details</button>
 <button class="tablink" onclick="openPage('players')" >2.Players</button>
@@ -46,7 +46,9 @@
             </div>
         </div> -->
     </div>   
-    <button class="nextBtn" onclick="add()">PAIR NEXT ROUND</button>
+    <button class="nextBtn" onclick="addNewRound()" style="position: absolute;right:0;bottom:0;margin:100px;">PAIR NEXT ROUND</button>
+    <button id="result" class="nextBtn" onclick="generateResult()" style="position: absolute;right:0;bottom:0;margin-right: 95px;" disabled>GENERATE RESULT</button>
+    
 </div>
 <div id="rank" class="tabcontent">
     <!-- <div id="buttonMenu">

@@ -13,7 +13,9 @@ import java.io.IOException;
 public class TotalPointsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int roundNumber=Integer.parseInt(req.getParameter("roundNumber"));
+        int tournamentId=Integer.parseInt(req.getParameter("tournamentID"));
         MatchManager matchManager=new MatchManager();
-        matchManager.calculateTotalPoints(1,11);
+        matchManager.calculateTotalPoints(roundNumber,tournamentId);
     }
 }

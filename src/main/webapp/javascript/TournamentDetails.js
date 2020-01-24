@@ -259,6 +259,7 @@ function openPage(pageName,state) {
   }
 
   function disableMenuButtons(evt, IDNAME,state) {
+    
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent1");
     for (i = 0; i < tabcontent.length; i++) {
@@ -280,6 +281,7 @@ function openPage(pageName,state) {
     current[0].className = current[0].className.replace(" active", "");
     this.className += " active";
     }
+    
     if(state=='old')
         getPaired(IDNAME);
     else
@@ -296,22 +298,36 @@ function openPage(pageName,state) {
           var x=(parseInt(data, 10))+1; 
           if(load1=='firsttime'){
             for(let i=1;i<x;i++){
-              const btn1=`<button class="tablink1" onclick="disableMenuButtons(event,'${i}','old')">Round${i}</button>`
+              const btn1=`<button id="Btn${i}" class="tablink1" onclick="disableMenuButtons(event,'${i}','old')">Round${i}</button>`
               $("#buttonMenu").append($.parseHTML(btn1))
               $("#divMenu").append($.parseHTML(createContent(i)))
             }
           }   
-          console.log(load1)
-          console.log(totalRounds)
-          console.log(x)
-          // if(x<totalRounds){
-          //     alert("ROUNDS COMPLETED");
-          // }else{
+
             if(load1!='firsttime'){
               if(x>totalRounds){
                 alert("All rounds completed")
               }else{
-                const btn2=`<button class="tablink1" onclick="disableMenuButtons(event,'${x}','new')">Round${x}</button>`
+                // var all=document.getElementsByClassName("tablink1")
+                // var all2=document.getElementsByClassName("tablink1 active")
+                // console.log(all.length+all2.length)
+                // if(all.length+all2.length>1){
+                //   $("#Btn"+all.length+all2.length-1).remove();
+
+                  
+                //   var temp=all.length+all2.length
+                //   var old=document.getElementById("buttonMenu").childNodes[(temp-1).toString()];  
+                //   console.log(old)
+                //   const btn1=document.createElement("button")
+                //   btn1.setAttribute("id","Btn"+(temp-1))
+                //   btn1.setAttribute("class","tablink1")
+                //   btn1.setAttribute("onclick","disableMenuButtons(event,'"+(temp-1)+"','old')")               
+                //   btn1.textContent="Round"+(temp-1)
+                //   document.getElementById("buttonMenu").replaceChild(btn1,old)
+                //  }
+                
+
+                const btn2=`<button id="Btn${x}" class="tablink1" onclick="disableMenuButtons(event,'${x}','new')">Round${x}</button>`
                 $("#buttonMenu").append($.parseHTML(btn2))
                 $("#divMenu").append($.parseHTML(createContent(x)))
               }              

@@ -95,7 +95,7 @@ public class TournamentManager {
 
     public int joinTournament(int playerID,int tournamentID){
         establishConnection();
-        String query="insert into PlayersIn values(?,?)";
+        String query="insert into PlayersIn(ID,TournamentID) values(?,?)";
         try {
             PreparedStatement statement=connection.prepareStatement(query);
             statement.setInt(1,playerID);

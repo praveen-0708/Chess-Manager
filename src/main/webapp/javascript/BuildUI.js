@@ -17,6 +17,7 @@ function loadLoginPage(){
     const label1=document.createElement('label')
     label1.textContent="Email"
 
+    
 
     const email=document.createElement("input")
     email.setAttribute("type","text")
@@ -57,6 +58,7 @@ function loadLoginPage(){
     div2.appendChild(h1)
     div2.appendChild(p)
     div2.appendChild(hr)
+    
     div2.appendChild(label1)
     div2.appendChild(email)
     div2.appendChild(label2)
@@ -96,6 +98,17 @@ function loadSignUpPage(){
     const hr=document.createElement('hr')
 
     const label1=document.createElement('label')
+
+    const label4=document.createElement('label')
+    label4.textContent="Employee ID"
+
+    const emp=document.createElement("input")
+    emp.setAttribute("type","text")
+    emp.setAttribute("placeholder","Employee ID")
+    emp.setAttribute("name","emp")
+    emp.setAttribute("id","empId")
+    emp.required=true
+
     label1.textContent="Name"
 
     const name=document.createElement("input")
@@ -147,6 +160,8 @@ function loadSignUpPage(){
     div2.appendChild(h1)
     div2.appendChild(p)
     div2.appendChild(hr)
+    div2.appendChild(label4)
+    div2.appendChild(emp)
     div2.appendChild(label1)
     div2.appendChild(name)
     div2.appendChild(label2)

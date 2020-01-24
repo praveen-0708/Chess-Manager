@@ -23,8 +23,11 @@ $(document).ready(function(){
       var name = $('#name').val();
       var email = $('#email').val();
       var password = $('#password').val();
+      var emp=$('#empId').val();
+      
       if(validate(email,password)){
           $.post('register', {
+                   eid : emp, 
                    name : name,
                    email : email,
                    password : password
