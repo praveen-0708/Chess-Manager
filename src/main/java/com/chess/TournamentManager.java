@@ -135,6 +135,8 @@ public class TournamentManager {
             tournament.setBye(resultSet.getInt(9));
             tournament.setDraw(resultSet.getInt(10));
             tournament.setCreatedBy(resultSet.getInt(11));
+            tournament.setRoundsCompleted(resultSet.getInt(12));
+            tournament.setResult(resultSet.getString(13));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,6 +154,7 @@ public class TournamentManager {
             ResultSet rs=databaseConnection.selectQuery2(query);
             while(rs.next())
                 rounds=rs.getInt(1);
+
             return rounds;
         }
 

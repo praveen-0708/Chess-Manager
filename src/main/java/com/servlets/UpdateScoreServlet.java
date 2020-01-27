@@ -47,6 +47,8 @@ public class UpdateScoreServlet extends HttpServlet {
         int roundNumber=Integer.parseInt(req.getParameter("roundNumber"));
         String result=req.getParameter("result");
 
+
+
         PairingManager pairingManager=new PairingManager();
         pairingManager.updateScore(playerId,0,tournamentId,roundNumber,points,0,result);
 

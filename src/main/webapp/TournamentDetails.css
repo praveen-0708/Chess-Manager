@@ -122,3 +122,20 @@ body, html {
   background-color: #555555;
   color: white;
   }
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: separate;
+  width: 100%;
+  padding: 40px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #cfc7c6;
+}

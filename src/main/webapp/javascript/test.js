@@ -19,6 +19,9 @@ function openPage(pageName) {
     {
         previousData();
     }
+    else{
+        getResult();
+    }
          
   }
 
@@ -367,7 +370,8 @@ function addNewRound(){
             var x=(parseInt(data, 10));
             if(x>=totalRounds){
                 alert("All rounds completed");
-                document.getElementById("result").disabled = false;
+                //document.getElementById("result").disabled = false;
+                addScoreOfFinalRounds(x);
                 previousData();
 
             }else{  
@@ -380,7 +384,7 @@ function addNewRound(){
                 //console.log("round:"+x)
                 if(x>0){
                     console.log("round:"+x)
-                    addScoreOfARound(localStorage.getItem("tournamentID"),x)                   
+                    addScoreOfARound(x)                   
                 }
                     
                 const btn1=document.createElement("button");
@@ -403,7 +407,7 @@ function addNewRound(){
     });
 }
 
-function addScoreOfARound(tournamentID,roundNumber){
+function addScoreOfARound(roundNumber){
     $.post('calculateTotalPoints',{ 
         tournamentID:localStorage.getItem("tournamentID"),
         roundNumber:roundNumber
@@ -412,7 +416,57 @@ function addScoreOfARound(tournamentID,roundNumber){
     });
 
 }
+function addScoreOfFinalRounds(roundNumber){
+    $.post('calculateTotalPoints',{ 
+        tournamentID:localStorage.getItem("tournamentID"),
+        roundNumber:roundNumber
+        },function(data){
 
-function generateResult(){
-    alert("clicked");
+    });
+    addScoreOfFinalRounds=noop;
+
+}
+function noop(){};
+
+function getResult(){
+    var oldresult=document.getElementById("mainresult");
+    const newresult=document.createElement('div');
+    newresult.setAttribute("id","mainresult");
+    document.getElementById("rank").replaceChild(newresult,oldresult);
+    $("#mainresult").append($.parseHTML(createResultCardMenu()));
+    $.get('result',{ 
+        tournamentID:localStorage.getItem("tournamentID")        
+        },function(data){
+            data=JSON.parse(data);
+            for(let index=0;index<data.length;index++){
+                $("#result").append($.parseHTML(createResultCard(data[index],index+1))) 
+            } 
+
+    });
+}
+
+function createResultCardMenu(){
+    const template=`
+    <table id="result">
+        <tr>
+            <th>PlayerId</th>
+            <th>Name</th>
+            <th>Points</th>
+            <th>Rank</th>
+        </tr>
+    </table>
+    `;
+    return template;
+}
+function createResultCard(data,index){
+    const template=`
+    <tr>
+        <td>${data.playerID}</td>
+        <td>${data.name}</td>
+        <td>${data.points}</td>
+        <td>${index}</td>
+    </tr>
+
+    `;
+    return template;
 }

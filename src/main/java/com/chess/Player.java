@@ -5,16 +5,26 @@ public class Player {
     private String name;
     private String email;
     private String password;
+    private int points;
 
     public Player(){
 
     }
 
-    public Player(int playerID, String name, String email, String password) {
+    public Player(int playerID, String name, String email, String password, int points) {
         this.playerID = playerID;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.points = points;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public int getPlayerID() {

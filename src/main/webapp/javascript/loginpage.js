@@ -32,10 +32,14 @@ $(document).ready(function(){
                    email : email,
                    password : password
            }, function(data,status) {
-                   if(status=="success"){
+                
+                   if(data=="registered"){
                         alert("Successfully Registered.")
-                   }else{
-                    alert("Failed.")
+                   }else if(data=="exists"){
+                    alert("Email already taken");
+                   }
+                   else{
+                       alert("Failed");
                    }
 
            });

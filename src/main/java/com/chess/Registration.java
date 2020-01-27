@@ -30,14 +30,16 @@ public class Registration {
         }
     }
 
-    public void addUser(String name,String email,String password){
+    public int addUser(String name,String email,String password){
         String query="insert into users(Name,Email,password) values('"+name+"','"+email+"','"+password+"')";
 
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
+            return 1;
         } catch (SQLException e) {
             e.printStackTrace();
+            return 0;
         }
         finally {
             closeConnection();

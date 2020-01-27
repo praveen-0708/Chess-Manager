@@ -13,11 +13,11 @@ public class MatchManager {
         try{
             while (rs.next()){
                 if(rs.getString(7).equals("BYE")){
-                    //System.out.println("P1-"+rs.getInt(1)+" points="+rs.getInt(5));
+                    System.out.println("P1-"+rs.getInt(1)+" points="+rs.getInt(5));
                     updateTotalPointsInDB(rs.getInt(1),rs.getInt(5),tournamentID,databaseConnection);
                 }else{
-                    //System.out.println("P1-"+rs.getInt(1)+" points1="+rs.getInt(5));
-                    //System.out.println("P2-"+rs.getInt(2)+" points2="+rs.getInt(6));
+                    System.out.println("P1-"+rs.getInt(1)+" points1="+rs.getInt(5));
+                    System.out.println("P2-"+rs.getInt(2)+" points2="+rs.getInt(6));
                     updateTotalPointsInDB(rs.getInt(1),rs.getInt(5),tournamentID,databaseConnection);
                     updateTotalPointsInDB(rs.getInt(2),rs.getInt(6),tournamentID,databaseConnection);
                 }

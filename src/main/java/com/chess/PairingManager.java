@@ -30,6 +30,7 @@ public class PairingManager {
         return matches;
 
     }
+
     public List<Match> createMatches(List<Player> players,int roundNumber){
         List<Match> matches=new ArrayList<>();
         int numberOfPlayers=players.size();
@@ -50,6 +51,11 @@ public class PairingManager {
         }
         return matches;
     }
+
+    private boolean haveAlreadyPlayed(List<Match> finishedMatches, Player player1, Player player2) {
+        return false;
+    }
+
     public void updateScore(int player1ID,int player2ID,int tournamentId,int roundNumber,int player1Points,int player2Points,String result){
 
 //        String query="update Tournament"+tournamentId+"PointsTable set ROUND"+roundNumber+"="+points+
