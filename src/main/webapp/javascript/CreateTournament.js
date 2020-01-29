@@ -46,25 +46,13 @@ function openPage(pageName) {
   });
 
   $("#createBtn").on("click",function(){
-
-    console.log(name);
-    console.log(daterange);
-    console.log(locationInput);
-
     var rounds=$("#rounds").val();
     var duration=$("#duration").val();
     var Win=$("#Win").val();
     var Loss=$("#Loss").val();
     var BYE=$("#BYE").val();
     var Draw=$("#Draw").val();
-    var createdBy=document.cookie.split(" ")[0]
-
-    console.log(rounds);
-    console.log(duration);
-    console.log(Win);
-    console.log(Loss);
-    console.log(BYE);
-    console.log(Draw);
+    //var createdBy=document.cookie.split(" ")[0]
 
     $.post('createTournament',{
       name:name,
@@ -75,13 +63,17 @@ function openPage(pageName) {
       Win:Win,
       Loss:Loss,
       BYE:BYE,
-      Draw:Draw,
-      createdBy:createdBy
+      Draw:Draw
+      //createdBy:createdBy
 
     },function(data,status){
-      alert(status);
-      if(status=="success")
+      
+      if(data=="success"){
+        alert("Tournament created");
         window.location.replace("home.html")
+      }       
+      else
+        alert("Failed. Please try again.")
 
     });
 

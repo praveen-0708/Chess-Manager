@@ -11,7 +11,7 @@ public class PairingManager {
 
     public List<Match> pairing(int tournamentId,int roundNumber){
 
-        String query="select *from users u,PlayersIn p where p.TournamentID="+tournamentId+" and u.ID=p.ID order by TOTAL_POINTS desc";
+        String query="select *from USER u,PLAYER_IN_TOURNAMENT p where p.TOURNAMENT_ID="+tournamentId+" and u.PLAYER_ID=p.PLAYER_ID order by TOTAL_POINTS desc";
 
         PlayerManager playerManager=new PlayerManager();
         List<Player> players=playerManager.getPlayerDetails(query);
@@ -22,7 +22,7 @@ public class PairingManager {
         TournamentManager tournamentManager=new TournamentManager();
         int roundsCompleted=tournamentManager.getRoundsCompleted(tournamentId);
 
-        query="update Tournament set ROUNDS_COMPLETED="+(roundsCompleted+1)+" where TournamentId="+tournamentId;
+        query="update TOURNAMENT set ROUNDS_COMPLETED="+(roundsCompleted+1)+" where TOURNAMENT_ID="+tournamentId;
         DatabaseConnection databaseConnection=new DatabaseConnection();
         databaseConnection.updateQuery(query);
         databaseConnection.closeConnection();
@@ -61,8 +61,9 @@ public class PairingManager {
 //        String query="update Tournament"+tournamentId+"PointsTable set ROUND"+roundNumber+"="+points+
 //                " where PLAYERID="+playerId;
 
-        String query="update MATCHES set RESULT='"+result+"',PLAYER1_POINTS="+player1Points+",PLAYER2_POINTS="+player2Points+" where PLAYER1_ID="+player1ID+" and PLAYER2_ID="+player2ID
+        String query="update PLAYER_MATCH set RESULT='"+result+"',PLAYER1_POINTS="+player1Points+",PLAYER2_POINTS="+player2Points+" where PLAYER1_ID="+player1ID+" and PLAYER2_ID="+player2ID
                 +" and ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId;
+
 
 
         DatabaseConnection databaseConnection=new DatabaseConnection();
@@ -104,7 +105,7 @@ public class PairingManager {
             if(!match.getResult().equals(Match.MatchResult.BYE))
                 player2ID=match.getPlayer2().getPlayerID();
 
-            query="insert into MATCHES(PLAYER1_ID,PLAYER2_ID,ROUND_NUMBER,TOURNAMENT_ID) values("+player1ID+","+player2ID+","+roundNumber+","+tournamentId+")";
+            query="insert into PLAYER_MATCH(PLAYER1_ID,PLAYER2_ID,ROUND_NUMBER,TOURNAMENT_ID) values("+player1ID+","+player2ID+","+roundNumber+","+tournamentId+")";
             DatabaseConnection databaseConnection=new DatabaseConnection();
             databaseConnection.updateQuery(query);
             databaseConnection.closeConnection();
@@ -112,8 +113,8 @@ public class PairingManager {
     }
 
     public List<Match> paired(int tournamentId,int roundNumber){
-        String query="select *from users u,MATCHES m where m.ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId+" and u.ID=m.PLAYER1_ID";
-        String query2="select *from users u,MATCHES m where m.ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId+" and u.ID=m.PLAYER2_ID";
+        String query="select *from USER u,PLAYER_MATCH m where m.ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId+" and u.PLAYER_ID=m.PLAYER1_ID";
+        String query2="select *from USER u,PLAYER_MATCH m where m.ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId+" and u.PLAYER_ID=m.PLAYER2_ID";
 
         DatabaseConnection databaseConnection=new DatabaseConnection();
 

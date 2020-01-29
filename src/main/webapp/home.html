@@ -7,20 +7,15 @@
     <link rel="stylesheet" href="homepage.css"/>
 </head>
 <body>
-<button class="button1" id="logout" onclick="logout()">LOGOUT</button>
+<button class="button1" id="logout" onclick="logout()" type="submit">LOGOUT</button>
 <div class="abc">
     <script>
-        if(document.cookie==""){
-            alert("Please login")
-            window.location.replace("index.html")
-        }
-
         function logout(){
-            // $.get('',{ 
-            //     },function(data){
-                
-            // });
-            // }
+            $.get("logout",{},
+                function(data){
+                    window.location.replace("index.html")
+            });
+        }
             
     </script>
 

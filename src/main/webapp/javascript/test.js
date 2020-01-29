@@ -29,11 +29,11 @@ function openPage(pageName) {
   
   function getDetails(){
       $.get('SelectedTournament',{
-        ID:localStorage.getItem("tournamentID")
+        // ID:localStorage.getItem("tournamentID")
       },function(data){
           data=JSON.parse(data)
           document.getElementById("name").innerHTML="Tournament Name:"+data[0].name
-          document.getElementById("date").innerHTML="Date:"+data[0].dateRange
+          document.getElementById("date").innerHTML="Date:"+data[0].startDate
           document.getElementById("location").innerHTML="Location:"+data[0].locationInput
           document.getElementById("rounds").innerHTML="No.of Rounds:"+data[0].rounds
           document.getElementById("duration").innerHTML="Duration:"+data[0].duration
@@ -46,7 +46,7 @@ function openPage(pageName) {
   function getPlayers(){
     var old=document.getElementById('playersList')  
     $.get('PlayerDetails',{
-        ID:localStorage.getItem("tournamentID")
+        // ID:localStorage.getItem("tournamentID")
       },function(data){
           data=JSON.parse(data)
           const new1=document.createElement('div')
@@ -73,11 +73,11 @@ function openPage(pageName) {
   function getPairing(idh){
     
     $.get('pairing',{
-        ID:localStorage.getItem("tournamentID"),
+        // ID:localStorage.getItem("tournamentID"),
         round:idh
       },function(data){
         data=JSON.parse(data)
-        console.log(localStorage.getItem("tournamentID"))
+        // console.log(localStorage.getItem("tournamentID"))
         const new1=document.createElement('div')
         new1.setAttribute("id","matchesListNoBye"+String(idh))
         $("#matchList"+String(idh)).append(new1)
@@ -105,11 +105,11 @@ function openPage(pageName) {
     var old1=document.getElementById('matchesListNoBye'+String(idh))
     var old2=document.getElementById('matchesListBye'+String(idh))
     $.get('paired',{
-        ID:localStorage.getItem("tournamentID"),
+        // ID:localStorage.getItem("tournamentID"),
         round:idh
       },function(data){
           data=JSON.parse(data)
-          console.log(localStorage.getItem("tournamentID"))
+          // console.log(localStorage.getItem("tournamentID"))
           const new1=document.createElement('div')
           new1.setAttribute("id","matchesListNoBye"+String(idh))
           $("#matchList"+String(idh)).append(new1)
@@ -198,38 +198,38 @@ function openPage(pageName) {
   }
 
   function updateScore(buttonIndex,player1ID,player2ID,roundNumber){
-    var win=localStorage.getItem("win")
-    var loss=localStorage.getItem("loss")
-    var bye=localStorage.getItem("bye")
-    var draw=localStorage.getItem("draw")
+    // var win=localStorage.getItem("win")
+    // var loss=localStorage.getItem("loss")
+    // var bye=localStorage.getItem("bye")
+    // var draw=localStorage.getItem("draw")
     
-    var point1=0;
-    var point2=0;
+    // var point1=0;
+    // var point2=0;
     var result='';
     if(buttonIndex===1){
-      point1+=parseInt(win, 10)
-      point2+=parseInt(loss, 10)
+      // point1+=parseInt(win, 10)
+      // point2+=parseInt(loss, 10)
       result='PLAYER_1_WON'
     }
     else if(buttonIndex===2){
-      point1+=parseInt(draw, 10)
-      point2+=parseInt(draw, 10)
+      // point1+=parseInt(draw, 10)
+      // point2+=parseInt(draw, 10)
       result='DRAW'
     }
     else{
-      point1+=parseInt(loss, 10)
-      point2+=parseInt(win, 10)
+      // point1+=parseInt(loss, 10)
+      // point2+=parseInt(win, 10)
       result='PLAYER_2_WON'
     }
     
     $.post('updateScore',{
       case:"NOBYE",
-      tournamentID:localStorage.getItem("tournamentID"),
+      // tournamentID:localStorage.getItem("tournamentID"),
       roundNumber:roundNumber,
       playerID1:player1ID,
       playerID2:player2ID,
-      points1:point1,
-      points2:point2,
+      // points1:point1,
+      // points2:point2,
       result:result
     },function(data){
           alert(data)
@@ -239,15 +239,15 @@ function openPage(pageName) {
 
   function updateScoreWithBYEPostMethod(playerID,roundNumber){
     
-    var bye=localStorage.getItem("bye")
-    var point=0;
-    point+=parseInt(bye, 10)
+    // var bye=localStorage.getItem("bye")
+    // var point=0;
+    // point+=parseInt(bye, 10)
     $.post('updateScore',{
       case:"BYE",
-      tournamentID:localStorage.getItem("tournamentID"),
+      // tournamentID:localStorage.getItem("tournamentID"),
       roundNumber:roundNumber,
       playerID:playerID,
-      points:point,
+      // points:point,
       result:"BYE"
     },function(data){
           console.log(data)
@@ -324,9 +324,9 @@ function openPage(pageName) {
 
 
 function setRounds(rounds){
-  console.log("set")
+  // console.log("set")
   $.post('getRounds',{ 
-    tournamentID:localStorage.getItem("tournamentID"),  
+    // tournamentID:localStorage.getItem("tournamentID"),  
     roundsCompleted:rounds
   },function(data){
                     
@@ -335,11 +335,12 @@ function setRounds(rounds){
 
 function previousData(){
     var old=document.getElementById("buttonMenu");
-     
+    
       $.get('getRounds',{ 
-        tournamentID:localStorage.getItem("tournamentID")   
+        // tournamentID:localStorage.getItem("tournamentID")   
         },function(data){
-            var x=(parseInt(data, 10));
+            data=JSON.parse(data)
+            var x=(parseInt(data.roundsCompleted, 10));
 
             const oldDiv=document.getElementById("divMenu");
             oldDiv.innerHTML='';
@@ -362,15 +363,17 @@ function previousData(){
 }
 
 function addNewRound(){
-    var totalRounds=parseInt(localStorage.getItem("totalRounds"), 10);
+    //var totalRounds=parseInt(localStorage.getItem("totalRounds"), 10);
     $.get('getRounds',{ 
-        tournamentID:localStorage.getItem("tournamentID")   
+        // tournamentID:localStorage.getItem("tournamentID")   
         },function(data){
-            console.log(data)
-            var x=(parseInt(data, 10));
+            data=JSON.parse(data)
+            
+            var totalRounds=(parseInt(data.totalRounds, 10));
+            var x=(parseInt(data.roundsCompleted, 10));
             if(x>=totalRounds){
                 alert("All rounds completed");
-                //document.getElementById("result").disabled = false;
+                document.getElementById("next").style.visibility="hidden";
                 addScoreOfFinalRounds(x);
                 previousData();
 
@@ -409,7 +412,7 @@ function addNewRound(){
 
 function addScoreOfARound(roundNumber){
     $.post('calculateTotalPoints',{ 
-        tournamentID:localStorage.getItem("tournamentID"),
+        // tournamentID:localStorage.getItem("tournamentID"),
         roundNumber:roundNumber
         },function(data){
 
@@ -418,7 +421,7 @@ function addScoreOfARound(roundNumber){
 }
 function addScoreOfFinalRounds(roundNumber){
     $.post('calculateTotalPoints',{ 
-        tournamentID:localStorage.getItem("tournamentID"),
+        // tournamentID:localStorage.getItem("tournamentID"),
         roundNumber:roundNumber
         },function(data){
 
@@ -435,7 +438,7 @@ function getResult(){
     document.getElementById("rank").replaceChild(newresult,oldresult);
     $("#mainresult").append($.parseHTML(createResultCardMenu()));
     $.get('result',{ 
-        tournamentID:localStorage.getItem("tournamentID")        
+        // tournamentID:localStorage.getItem("tournamentID")        
         },function(data){
             data=JSON.parse(data);
             for(let index=0;index<data.length;index++){
@@ -449,7 +452,6 @@ function createResultCardMenu(){
     const template=`
     <table id="result">
         <tr>
-            <th>PlayerId</th>
             <th>Name</th>
             <th>Points</th>
             <th>Rank</th>
@@ -461,7 +463,6 @@ function createResultCardMenu(){
 function createResultCard(data,index){
     const template=`
     <tr>
-        <td>${data.playerID}</td>
         <td>${data.name}</td>
         <td>${data.points}</td>
         <td>${index}</td>

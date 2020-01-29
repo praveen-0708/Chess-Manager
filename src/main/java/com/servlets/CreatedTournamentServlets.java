@@ -9,16 +9,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name="createdTournaments",urlPatterns = "/created")
+@WebServlet(name="createdTournaments",urlPatterns = "/home/created")
 public class CreatedTournamentServlets extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int TournamentId= Integer.parseInt(req.getParameter("ID"));
-        String query="select * from Tournament where CREATED_BY="+TournamentId+"";
-
+        HttpSession session = req.getSession(false);
+        int playerID=(Integer)session.getAttribute("userId");
+        String query="select * from TOURNAMENT where CREATED_BY="+playerID;
         TournamentManager tournamentManager=new TournamentManager();
         List<Tournament> createdTournament=tournamentManager.getTournamentDetails(query);
         Gson gson=new Gson();

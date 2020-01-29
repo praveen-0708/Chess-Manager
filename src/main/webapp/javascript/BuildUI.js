@@ -99,16 +99,6 @@ function loadSignUpPage(){
 
     const label1=document.createElement('label')
 
-    const label4=document.createElement('label')
-    label4.textContent="Employee ID"
-
-    const emp=document.createElement("input")
-    emp.setAttribute("type","text")
-    emp.setAttribute("placeholder","Employee ID")
-    emp.setAttribute("name","emp")
-    emp.setAttribute("id","empId")
-    emp.required=true
-
     label1.textContent="Name"
 
     const name=document.createElement("input")
@@ -145,14 +135,14 @@ function loadSignUpPage(){
     cancel.setAttribute("type","button")
     cancel.setAttribute("class","loginbtn")
     cancel.setAttribute("id","cancelBtn")
-    cancel.textContent="Cancel"
+    cancel.textContent="LOGIN"
     cancel.setAttribute("onclick","signUpToLogin()")
 
     const signUpBtn=document.createElement("button")
     signUpBtn.setAttribute("type","button")
     signUpBtn.setAttribute("class","signupbtn")
     signUpBtn.setAttribute("id","signUpBtn")
-    signUpBtn.textContent="Sign Up"
+    signUpBtn.textContent="SIGN UP"
 
     div3.appendChild(cancel)
     div3.appendChild(signUpBtn)
@@ -160,8 +150,6 @@ function loadSignUpPage(){
     div2.appendChild(h1)
     div2.appendChild(p)
     div2.appendChild(hr)
-    div2.appendChild(label4)
-    div2.appendChild(emp)
     div2.appendChild(label1)
     div2.appendChild(name)
     div2.appendChild(label2)

@@ -3,9 +3,7 @@ function clickNavBar(evt, NavOption) {
   if(NavOption=="joined"){
     var old=document.getElementById('joinedList')  
     $.get(NavOption, {
-      ID : document.cookie.split(" ")[0]   
-      }, function(data) {
-          
+      }, function(data) {          
           data=JSON.parse(data)
           const new1=document.createElement('div')
           new1.setAttribute("id","joinedList")
@@ -19,8 +17,8 @@ function clickNavBar(evt, NavOption) {
   }
   else{
     var old=document.getElementById('createdList')  
-    $.get(NavOption, {
-      ID : document.cookie.split(" ")[0]   
+    $.get("home/created", {
+      
       }, function(data) {
           
           data=JSON.parse(data)
@@ -61,7 +59,7 @@ function createCard1(data,index){
   <div class="card" id="card${index}">
     
     <label class="label" id="name${index}">Tournament Name:${data.name}</label>
-    <label class="label" id="date${index}">Date:${data.dateRange}</label>       
+    <label class="label" id="date${index}">Date:${data.startDate}</label>       
     <label class="label" id="location${index}">Location:${data.locationInput}</label>       
     <label class="label" id="rounds${index}">No.of Rounds:${data.rounds}</label>
     <label class="label" id="duration${index}">Duration:${data.duration}</label>
@@ -76,7 +74,7 @@ function createCard2(data,index){
   <div class="card" id="card${index}" onclick="arrowBtn(${data.tournamentId},${data.rounds},${data.win},${data.loss},${data.bye},${data.draw})")>
     <div style="float:left; width:75%;">
         <label class="label" id="name${index}">Tournament Name:${data.name}</label>
-        <label class="label" id="date${index}">Date:${data.dateRange}</label>       
+        <label class="label" id="date${index}">Date:${data.startDate}</label>       
         <label class="label" id="location${index}">Location:${data.locationInput}</label>       
         <label class="label" id="rounds${index}">No.of Rounds:${data.rounds}</label>
         <label class="label" id="duration${index}">Duration:${data.duration}</label>
@@ -90,11 +88,22 @@ function createCard2(data,index){
 }
 
 function arrowBtn(tournamentID,totalRounds,win,loss,bye,draw){
-  localStorage.setItem("tournamentID",tournamentID)
-  localStorage.setItem("win",win)
-  localStorage.setItem("loss",loss)
-  localStorage.setItem("bye",bye)
-  localStorage.setItem("draw",draw)
-  localStorage.setItem("totalRounds",totalRounds)
+
+  $.post('SelectedTournament',{
+    tournamentID:tournamentID,
+    win:win,
+    loss:loss,
+    bye:bye,
+    draw:draw,
+    totalRounds:totalRounds
+  },function(data){
+  });
+
+  // localStorage.setItem("tournamentID",tournamentID)
+  // localStorage.setItem("win",win)
+  // localStorage.setItem("loss",loss)
+  // localStorage.setItem("bye",bye)
+  // localStorage.setItem("draw",draw)
+  // localStorage.setItem("totalRounds",totalRounds)
   window.location.replace("TournamentDetails.html")
 }

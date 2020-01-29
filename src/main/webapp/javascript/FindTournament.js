@@ -4,22 +4,24 @@ $.get('createTournament',{
 
     data=JSON.parse(data)
     for(let index=0;index<data.length;index++)
-        createCard(index,data[index].tournamentId,data[index].name,data[index].dateRange,data[index].locationInput,data[index].rounds,data[index].duration)
+        createCard(index,data[index].tournamentId,data[index].name,data[index].startDate,data[index].locationInput,data[index].rounds,data[index].duration)
     
 
   });
 
   function joinTournament(index,tournamentId){
-    var ID=document.cookie.split(" ")[0]
+    //var ID=document.cookie.split(" ")[0]
     var clickedTournamentID=tournamentId
     $.post('joinTournament', {
-      ID : ID,
+      //ID : ID,
       clickedTournamentID : clickedTournamentID
       }, function(data,status) {
-          if(data==='0')
-            alert("Failed")
+          if(data=="already joined")
+            alert("Already Joined");
+          else if(data==='0')
+            alert("Failed");
           else{
-            alert("Success")
+            alert("Success");
             window.location.replace("home.html")
           }
             

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class PairingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int roundNumber=Integer.parseInt(req.getParameter("round"));
-        int tournamentId=Integer.parseInt(req.getParameter("ID"));
+        HttpSession session = req.getSession(false);
+        int tournamentId=(Integer)session.getAttribute("TournamentID");
 
         PairingManager pairingManager=new PairingManager();
         List<Match> matchList=pairingManager.pairing(tournamentId,roundNumber);

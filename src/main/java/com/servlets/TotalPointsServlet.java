@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name="calculateTotalPoints",urlPatterns = "/calculateTotalPoints")
@@ -17,10 +18,11 @@ public class TotalPointsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int roundNumber=Integer.parseInt(req.getParameter("roundNumber"));
-        int tournamentId=Integer.parseInt(req.getParameter("tournamentID"));
+        HttpSession session = req.getSession(false);
+        int tournamentId=(Integer)session.getAttribute("TournamentID");
 
         TournamentManager tournamentManager=new TournamentManager();
-        Tournament tournament=tournamentManager.getTournamentDetails("select *from Tournament where TournamentId="+tournamentId).get(0);
+        Tournament tournament=tournamentManager.getTournamentDetails("select *from TOURNAMENT where TOURNAMENT_ID="+tournamentId).get(0);
 
         if(tournament.getRounds()==tournament.getRoundsCompleted()){
             if(tournament.getResult().equals("NO")){
@@ -28,7 +30,7 @@ public class TotalPointsServlet extends HttpServlet {
                 MatchManager matchManager1=new MatchManager();
                 matchManager1.calculateTotalPoints(roundNumber,tournamentId);
                 DatabaseConnection databaseConnection=new DatabaseConnection();
-                databaseConnection.updateQuery("update Tournament set RESULT='YES' where TournamentId="+tournamentId);
+                databaseConnection.updateQuery("update TOURNAMENT set RESULT='YES' where TOURNAMENT_ID="+tournamentId);
                 databaseConnection.closeConnection();
             }
         }else{

@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="TournamentDetails.css"/>
     <script type="text/javascript" src="javascript/test.js"></script>
 </head>
-<body onload="openPage('matches')">
+<body onload="openPage('details')">
 
 <button class="tablink" onclick="openPage('details')" id="defaultOpen">1.Details</button>
 <button class="tablink" onclick="openPage('players')" >2.Players</button>
@@ -46,7 +46,7 @@
             </div>
         </div> -->
     </div>   
-    <button class="nextBtn" onclick="addNewRound()" style="position: absolute;right:0;bottom:0;margin:100px;">PAIR NEXT ROUND</button>
+    <button id="next" class="nextBtn" onclick="addNewRound()" style="position: absolute;right:0;bottom:0;margin:100px;">PAIR NEXT ROUND</button>
     
 </div>
 <div id="rank" class="tabcontent">

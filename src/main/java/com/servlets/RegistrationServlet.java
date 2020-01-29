@@ -25,13 +25,16 @@ public class RegistrationServlet extends HttpServlet {
         String password=req.getParameter("password");
 
         DatabaseConnection databaseConnection=new DatabaseConnection();
-        String query="select *from users where Email='"+email+"'";
+        String query="select *from USER where EMAIL='"+email+"'";
         ResultSet rs=databaseConnection.selectQuery2(query);
         try{
             if(!rs.next()){
                 Registration registration=new Registration();
-                registration.addUser(name,email,password);
-                resp.getWriter().write("registered");
+                int returnValue=registration.addUser(name,email,password);
+                if(returnValue==1)
+                    resp.getWriter().write("registered");
+                else if(returnValue==0)
+                    resp.getWriter().write("Failed");
             }else{
                 resp.getWriter().write("exists");
             }

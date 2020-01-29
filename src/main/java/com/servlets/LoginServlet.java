@@ -15,13 +15,13 @@ import java.sql.*;
 public class LoginServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String email=req.getParameter("email");
         String password=req.getParameter("password");
         resp.setContentType("text/plain");
 
-        String query="select * from users where Email=? and password=?";
+        String query="select * from USER where EMAIL=? and PASSWORD=MD5(?)";
         DatabaseConnection databaseConnection=new DatabaseConnection();
 
         try {
@@ -33,6 +33,10 @@ public class LoginServlet extends HttpServlet {
             while(rs.next())
                 ID=rs.getInt(1);
             if (ID!=0) {
+                HttpSession oldSession = req.getSession(false);
+                if (oldSession != null) {
+                    oldSession.invalidate();
+                }
                 HttpSession session = req.getSession(true);
                 session.setAttribute("userId", ID);
                 resp.getWriter().write(String.valueOf(ID));
