@@ -1,4 +1,4 @@
-package com.chess;
+package com.models;
 
 public class Match {
     private int roundNumber;

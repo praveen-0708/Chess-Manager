@@ -1,15 +1,18 @@
 package com.chess;
 
+import com.DAO.PairingDAO;
 import com.database.DatabaseConnection;
+import com.models.Match;
+import com.models.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PairingManager {
-
-    public List<Match> pairing(int tournamentId,int roundNumber){
+public class PairingManager implements PairingDAO {
+    @Override
+    public List<Match> pairing(int tournamentId, int roundNumber){
 
         String query="select *from USER u,PLAYER_IN_TOURNAMENT p where p.TOURNAMENT_ID="+tournamentId+" and u.PLAYER_ID=p.PLAYER_ID order by TOTAL_POINTS desc";
 
@@ -57,40 +60,11 @@ public class PairingManager {
     }
 
     public void updateScore(int player1ID,int player2ID,int tournamentId,int roundNumber,int player1Points,int player2Points,String result){
-
-//        String query="update Tournament"+tournamentId+"PointsTable set ROUND"+roundNumber+"="+points+
-//                " where PLAYERID="+playerId;
-
         String query="update PLAYER_MATCH set RESULT='"+result+"',PLAYER1_POINTS="+player1Points+",PLAYER2_POINTS="+player2Points+" where PLAYER1_ID="+player1ID+" and PLAYER2_ID="+player2ID
                 +" and ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentId;
 
-
-
         DatabaseConnection databaseConnection=new DatabaseConnection();
         databaseConnection.updateQuery(query);
-
-//        int totalPointsOfPlayer1=0;
-//        int totalPointsOfPlayer2=0;
-//        PlayerManager playerManager=new PlayerManager();
-//        if(result.equals("PLAYER_1_WON") || result.equals("BYE")){
-//            totalPointsOfPlayer1=playerManager.getTotalPointsOfAPlayer(player1ID,tournamentId);
-//            query="update PlayersIn set TOTAL_POINTS="+(player1Points+totalPointsOfPlayer1)+" where ID="+player1ID+" and TournamentID="+tournamentId;
-//            databaseConnection.updateQuery(query);
-//        }
-//        else if(result.equals("PLAYER_2_WON")){
-//            totalPointsOfPlayer2=playerManager.getTotalPointsOfAPlayer(player2ID,tournamentId);
-//            query="update PlayersIn set TOTAL_POINTS="+(player2Points+totalPointsOfPlayer2)+" where ID="+player2ID+" and TournamentID="+tournamentId;
-//            databaseConnection.updateQuery(query);
-//        }
-//        else if(result.equals("DRAW")){
-//            totalPointsOfPlayer1=playerManager.getTotalPointsOfAPlayer(player1ID,tournamentId);
-//            totalPointsOfPlayer2=playerManager.getTotalPointsOfAPlayer(player2ID,tournamentId);
-//            query="update PlayersIn set TOTAL_POINTS="+(player1Points+totalPointsOfPlayer1)+" where ID="+player1ID+" and TournamentID="+tournamentId;
-//            databaseConnection.updateQuery(query);
-//            query="update PlayersIn set TOTAL_POINTS="+(player2Points+totalPointsOfPlayer2)+" where ID="+player2ID+" and TournamentID="+tournamentId;
-//            databaseConnection.updateQuery(query);
-//        }
-//        System.out.println(query);
         databaseConnection.closeConnection();
     }
 

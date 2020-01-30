@@ -1,8 +1,7 @@
 package com.servlets;
 
-import com.chess.Match;
+import com.models.Match;
 import com.chess.PairingManager;
-import com.chess.PlayerManager;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;

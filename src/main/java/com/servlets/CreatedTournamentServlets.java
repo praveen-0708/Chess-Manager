@@ -1,6 +1,6 @@
 package com.servlets;
 
-import com.chess.Tournament;
+import com.models.Tournament;
 import com.chess.TournamentManager;
 import com.google.gson.Gson;
 

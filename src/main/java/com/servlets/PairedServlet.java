@@ -1,6 +1,6 @@
 package com.servlets;
 
-import com.chess.Match;
+import com.models.Match;
 import com.chess.PairingManager;
 import com.google.gson.Gson;
 

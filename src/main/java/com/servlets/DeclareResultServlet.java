@@ -1,6 +1,6 @@
 package com.servlets;
 
-import com.chess.Player;
+import com.models.Player;
 import com.chess.PlayerManager;
 import com.google.gson.Gson;
 

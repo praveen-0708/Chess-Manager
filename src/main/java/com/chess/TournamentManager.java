@@ -1,6 +1,8 @@
 package com.chess;
 
+import com.DAO.TournamentDAO;
 import com.database.DatabaseConnection;
+import com.models.Tournament;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
-public class TournamentManager {
+public class TournamentManager implements TournamentDAO {
 
     private Connection connection;
     public TournamentManager(){

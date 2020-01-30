@@ -1,10 +1,8 @@
 package com.servlets;
 
-import com.chess.Registration;
+import com.chess.PlayerRegistration;
 import com.database.DatabaseConnection;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +27,7 @@ public class RegistrationServlet extends HttpServlet {
         ResultSet rs=databaseConnection.selectQuery2(query);
         try{
             if(!rs.next()){
-                Registration registration=new Registration();
+                PlayerRegistration registration=new PlayerRegistration();
                 int returnValue=registration.addUser(name,email,password);
                 if(returnValue==1)
                     resp.getWriter().write("registered");

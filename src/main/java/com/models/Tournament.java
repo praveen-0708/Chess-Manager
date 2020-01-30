@@ -1,4 +1,4 @@
-package com.chess;
+package com.models;
 
 import java.util.Date;
 

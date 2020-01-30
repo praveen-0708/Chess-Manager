@@ -1,4 +1,4 @@
-package com.chess;
+package com.models;
 
 public class Player {
     private int playerID;

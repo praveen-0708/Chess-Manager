@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Registration {
+public class PlayerRegistration {
 
     private Connection connection;
-    public Registration(){
+    public PlayerRegistration(){
         establishConnection();
     }
 

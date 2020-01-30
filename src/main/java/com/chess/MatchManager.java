@@ -1,12 +1,23 @@
 package com.chess;
 
+import com.DAO.MatchDAO;
 import com.database.DatabaseConnection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MatchManager {
-    public void calculateTotalPoints(int roundNumber,int tournamentID){
+public class MatchManager implements MatchDAO {
+
+    public void updateTotalPointsInDB(int playerID,int points,int tournamentID,DatabaseConnection databaseConnection){
+        PlayerManager playerManager=new PlayerManager();
+        int totalPointsOfPlayer=playerManager.getTotalPointsOfAPlayer(playerID,tournamentID);
+        String query="update PLAYER_IN_TOURNAMENT set TOTAL_POINTS="+(points+totalPointsOfPlayer)+" where PLAYER_ID="+playerID+" and TOURNAMENT_ID="+tournamentID;
+        databaseConnection.updateQuery(query);
+
+    }
+
+    @Override
+    public void calculateTotalPoints(int roundNumber, int tournamentID) {
         DatabaseConnection databaseConnection=new DatabaseConnection();
         String query="select *from PLAYER_MATCH where ROUND_NUMBER="+roundNumber+" and TOURNAMENT_ID="+tournamentID;
         ResultSet rs=databaseConnection.selectQuery2(query);
@@ -28,12 +39,5 @@ public class MatchManager {
         finally {
             databaseConnection.closeConnection();
         }
-    }
-    public void updateTotalPointsInDB(int playerID,int points,int tournamentID,DatabaseConnection databaseConnection){
-        PlayerManager playerManager=new PlayerManager();
-        int totalPointsOfPlayer=playerManager.getTotalPointsOfAPlayer(playerID,tournamentID);
-        String query="update PLAYER_IN_TOURNAMENT set TOTAL_POINTS="+(points+totalPointsOfPlayer)+" where PLAYER_ID="+playerID+" and TOURNAMENT_ID="+tournamentID;
-        databaseConnection.updateQuery(query);
-
     }
 }

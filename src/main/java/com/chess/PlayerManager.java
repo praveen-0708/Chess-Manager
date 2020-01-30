@@ -1,14 +1,16 @@
 package com.chess;
 
+import com.DAO.PlayerDAO;
 import com.database.DatabaseConnection;
+import com.models.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerManager {
-
+public class PlayerManager implements PlayerDAO {
+    @Override
     public List<Player> getPlayerDetails(String query){
         DatabaseConnection databaseConnection=new DatabaseConnection();
         ResultSet rs = databaseConnection.selectQuery2(query);
@@ -42,7 +44,7 @@ public class PlayerManager {
 
         return player;
     }
-
+    @Override
     public int getTotalPointsOfAPlayer(int playerId,int tournamentId){
         DatabaseConnection databaseConnection=new DatabaseConnection();
         String query="select TOTAL_POINTS from PLAYER_IN_TOURNAMENT where PLAYER_ID="+playerId+" and TOURNAMENT_ID="+tournamentId;
@@ -60,7 +62,7 @@ public class PlayerManager {
             databaseConnection.closeConnection();
         }
     }
-
+    @Override
     public List<Player> getResultPlayerDetails(String query){
         DatabaseConnection databaseConnection=new DatabaseConnection();
         ResultSet rs = databaseConnection.selectQuery2(query);
